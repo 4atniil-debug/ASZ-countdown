@@ -1,159 +1,103 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ASZ Countdown Display V2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASZ Countdown Display V2.1</title>
 <style>
-:root{
-  --orange:#ff6a00;
-  --orange2:#ff9a28;
-  --dark:#030303;
-  --soft:rgba(255,106,0,.18);
-  --white:#f7f7f7;
-  --muted:#b9b9b9;
-}
+:root{--orange:#ff6a00;--orange2:#ff9a2f}
 *{box-sizing:border-box}
-html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#000;color:#fff;font-family:Arial,Tahoma,sans-serif;}
-body{display:flex;align-items:center;justify-content:center;}
-.screen{
-  position:relative;width:100vw;height:100vh;min-height:100vh;overflow:hidden;background:#030303;
-  isolation:isolate;
-}
-/* cinematic background */
-.screen:before{
-  content:"";position:absolute;inset:0;z-index:-8;
-  background:
-    radial-gradient(circle at 50% 8%, rgba(255,106,0,.16), transparent 26%),
-    radial-gradient(circle at 16% 70%, rgba(255,106,0,.09), transparent 26%),
-    radial-gradient(circle at 84% 72%, rgba(255,106,0,.08), transparent 26%),
-    linear-gradient(180deg,#050505 0%,#0b0b0b 42%,#010101 100%);
-}
-.screen:after{
-  content:"";position:absolute;inset:0;z-index:-7;opacity:.18;
-  background-image:
-    linear-gradient(30deg, rgba(255,255,255,.04) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,.04) 87.5%, rgba(255,255,255,.04)),
-    linear-gradient(150deg, rgba(255,255,255,.04) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,.04) 87.5%, rgba(255,255,255,.04)),
-    linear-gradient(30deg, rgba(255,255,255,.04) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,.04) 87.5%, rgba(255,255,255,.04)),
-    linear-gradient(150deg, rgba(255,255,255,.04) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,.04) 87.5%, rgba(255,255,255,.04));
-  background-size:72px 126px;background-position:0 0,0 0,36px 63px,36px 63px;
-}
-.beam{position:absolute;inset:-12%;z-index:-5;pointer-events:none;opacity:.42;filter:blur(.2px)}
-.beam span{position:absolute;display:block;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);box-shadow:0 0 18px var(--orange);transform:rotate(-18deg);animation:slide 8s linear infinite;}
-.beam span:nth-child(1){top:20%;left:-10%;width:50%;animation-delay:0s}.beam span:nth-child(2){top:34%;right:-15%;width:42%;animation-delay:2s}.beam span:nth-child(3){bottom:30%;left:8%;width:34%;animation-delay:3.4s}.beam span:nth-child(4){bottom:18%;right:-8%;width:48%;animation-delay:5s}
-@keyframes slide{0%{opacity:0;transform:translateX(-40px) rotate(-18deg)}20%,70%{opacity:.75}100%{opacity:0;transform:translateX(110px) rotate(-18deg)}}
-.spark{position:absolute;inset:0;z-index:-4;pointer-events:none;opacity:.75}
-.spark i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--orange);box-shadow:0 0 10px var(--orange);animation:float 7s linear infinite;opacity:0}
-.spark i:nth-child(1){left:12%;top:74%;animation-delay:.1s}.spark i:nth-child(2){left:21%;top:52%;animation-delay:1.2s}.spark i:nth-child(3){left:37%;top:82%;animation-delay:2.5s}.spark i:nth-child(4){left:61%;top:70%;animation-delay:.8s}.spark i:nth-child(5){left:76%;top:55%;animation-delay:3.2s}.spark i:nth-child(6){left:88%;top:77%;animation-delay:4.1s}.spark i:nth-child(7){left:48%;top:58%;animation-delay:5.2s}.spark i:nth-child(8){left:8%;top:40%;animation-delay:3.8s}
-@keyframes float{0%{transform:translateY(80px) scale(.4);opacity:0}15%{opacity:.9}90%{opacity:.35}100%{transform:translateY(-160px) scale(1.1);opacity:0}}
-.frame{position:absolute;inset:24px;border:1px solid rgba(255,106,0,.32);box-shadow:inset 0 0 70px rgba(255,106,0,.12),0 0 35px rgba(255,106,0,.10);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-.frame:before,.frame:after{content:"";position:absolute;width:220px;height:4px;background:linear-gradient(90deg,transparent,var(--orange),transparent);box-shadow:0 0 20px var(--orange);top:-2px}.frame:before{left:8%}.frame:after{right:8%}
-.header{position:relative;text-align:center;padding-top:4.2vh;z-index:2}
-.logo-wrap{position:relative;width:min(235px,15vw);height:min(235px,15vw);margin:0 auto 1.1vh;display:flex;align-items:center;justify-content:center;}
-.logo-wrap:before{content:"";position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.18),transparent 62%);filter:blur(18px);opacity:.75;animation:pulse 4.6s ease-in-out infinite}
-.logo-img{position:relative;width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 0 10px rgba(255,106,0,.35));}
-@keyframes pulse{0%,100%{opacity:.45;transform:scale(.96)}50%{opacity:.85;transform:scale(1.05)}}
-.slogan{font-size:clamp(24px,2.35vw,46px);font-weight:900;letter-spacing:.03em;text-shadow:0 0 18px rgba(255,106,0,.35);margin-top:-.4vh}
-.en{font-size:clamp(11px,.82vw,18px);letter-spacing:.42em;color:var(--muted);margin-top:.5vh;direction:ltr;text-transform:uppercase}
-.offer-box{position:absolute;top:6.2vh;right:5.5vw;text-align:right;z-index:3;min-width:260px}
-.offer-kicker{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,106,0,.55);border-radius:999px;padding:9px 18px;font-size:clamp(13px,1vw,20px);color:#fff;background:rgba(0,0,0,.35);box-shadow:0 0 18px rgba(255,106,0,.17)}
-.sun{width:18px;height:18px;border-radius:50%;background:var(--orange2);box-shadow:0 0 18px var(--orange);display:inline-block;position:relative}.sun:before{content:"";position:absolute;inset:-7px;border:2px solid rgba(255,106,0,.45);border-radius:50%}
-.offer-title{font-size:clamp(38px,4.6vw,92px);font-weight:1000;line-height:.88;margin-top:16px;color:#fff;text-shadow:0 0 12px rgba(255,255,255,.12)}
-.offer-title span{display:block;color:var(--orange2);font-size:.85em;text-shadow:0 0 22px rgba(255,106,0,.55)}
-.badge{position:absolute;top:6vh;left:5.4vw;z-index:3;border:1px solid rgba(255,106,0,.65);background:linear-gradient(180deg,rgba(255,106,0,.11),rgba(0,0,0,.35));box-shadow:0 0 22px rgba(255,106,0,.18);padding:14px 22px;border-radius:22px;text-align:center;min-width:138px}
-.badge strong{font-size:clamp(30px,2.7vw,54px);line-height:.9;color:var(--orange2);display:block;text-shadow:0 0 16px rgba(255,106,0,.5)}
-.badge span{font-size:clamp(13px,1vw,19px);color:#e9e9e9}
-.main{position:relative;z-index:2;margin:4.2vh auto 0;width:min(86vw,1540px);text-align:center;}
-.subline{font-size:clamp(22px,2.1vw,42px);font-weight:700;color:#f4f4f4;text-shadow:0 0 12px rgba(255,106,0,.18);margin-bottom:2.3vh}
-.countdown{direction:ltr;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,1.4vw,28px);width:100%;}
-.unit{position:relative;border-radius:26px;padding:clamp(18px,2.2vw,38px) 12px clamp(14px,1.4vw,26px);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.018));border:1px solid rgba(255,106,0,.55);box-shadow:0 0 35px rgba(255,106,0,.22), inset 0 0 28px rgba(255,106,0,.12);overflow:hidden;}
-.unit:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.13) 45%,transparent 68%);transform:translateX(-120%);animation:shine 6s ease-in-out infinite}.unit:nth-child(2):before{animation-delay:.8s}.unit:nth-child(3):before{animation-delay:1.5s}.unit:nth-child(4):before{animation-delay:2.1s}
-.unit:after{content:"";position:absolute;left:12%;right:12%;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);box-shadow:0 0 18px var(--orange)}
-@keyframes shine{0%,74%{transform:translateX(-130%)}88%,100%{transform:translateX(130%)}}
-.num{font-family:Impact,'Arial Black',Arial,sans-serif;font-size:clamp(74px,8.5vw,168px);font-weight:900;line-height:.86;color:var(--orange2);letter-spacing:.04em;text-shadow:0 0 8px rgba(255,106,0,.55),0 0 28px rgba(255,106,0,.55),0 2px 0 #5b2600;transition:transform .18s ease,filter .18s ease;}
-.num.tick{transform:scale(1.035);filter:brightness(1.25)}
-.label{margin-top:clamp(12px,1.1vw,22px);font-size:clamp(20px,1.7vw,34px);font-weight:800;color:#fff;line-height:1.2}.label small{display:block;color:#9d9d9d;font-size:.52em;letter-spacing:.28em;margin-top:5px;font-weight:700}
-.end-info{display:flex;justify-content:center;align-items:center;gap:34px;margin:2.6vh auto 0;flex-wrap:wrap;color:#f6f6f6;font-size:clamp(18px,1.65vw,31px);}
-.info-pill{border:1px solid rgba(255,106,0,.42);border-radius:18px;padding:12px 24px;background:rgba(0,0,0,.34);box-shadow:0 0 20px rgba(255,106,0,.11)}.info-pill b{color:var(--orange2)}
-.features{position:absolute;left:4.7vw;right:4.7vw;bottom:5.6vh;display:grid;grid-template-columns:repeat(9,1fr);gap:12px;z-index:3;}
-.feature{min-height:104px;border:1px solid rgba(255,106,0,.34);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(0,0,0,.22));box-shadow:inset 0 0 18px rgba(255,106,0,.06),0 0 18px rgba(255,106,0,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 5px;position:relative;overflow:hidden}.feature:before{content:"";position:absolute;top:0;left:18%;right:18%;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);box-shadow:0 0 12px var(--orange)}
-.ico{width:38px;height:38px;margin-bottom:7px;display:grid;place-items:center;color:var(--orange2);font-size:30px;filter:drop-shadow(0 0 10px rgba(255,106,0,.35))}.feature b{font-size:clamp(13px,1.05vw,20px);white-space:nowrap}.feature span{font-size:clamp(10px,.7vw,13px);color:#aaa;margin-top:4px;white-space:nowrap}.footer{position:absolute;bottom:1.6vh;left:0;right:0;text-align:center;z-index:3;color:var(--orange2);font-size:clamp(18px,1.55vw,32px);font-weight:900;letter-spacing:.22em;text-shadow:0 0 16px rgba(255,106,0,.35)}
-.expired .offer-title,.expired .num{color:#ff3d00;text-shadow:0 0 20px rgba(255,61,0,.75)}
-@media(max-aspect-ratio: 1/1){html,body{overflow:auto}.screen{min-height:100vh;height:auto;padding-bottom:30px}.frame{inset:10px}.offer-box,.badge{position:relative;top:auto;left:auto;right:auto;margin:16px auto;text-align:center}.header{padding-top:18px}.logo-wrap{width:145px;height:145px}.main{width:94vw;margin-top:18px}.countdown{grid-template-columns:repeat(2,1fr)}.features{position:relative;left:auto;right:auto;bottom:auto;width:94vw;margin:28px auto 0;grid-template-columns:repeat(3,1fr)}.footer{position:relative;bottom:auto;margin:28px 0 10px}.num{font-size:70px}.offer-title{line-height:1.05}.end-info{gap:12px}.info-pill{width:94%;}}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Tahoma,Arial,sans-serif}
+body{display:flex;align-items:center;justify-content:center}
+.stage{position:relative;width:100vw;height:100vh;overflow:hidden;background:radial-gradient(circle at 50% 12%,rgba(255,106,0,.20),transparent 28%),radial-gradient(circle at 20% 80%,rgba(255,106,0,.12),transparent 35%),linear-gradient(135deg,#050505 0%,#0a0a0a 42%,#000 100%)}
+.stage:before{content:"";position:absolute;inset:-20%;background:repeating-linear-gradient(115deg,transparent 0 42px,rgba(255,106,0,.045) 43px 45px),repeating-linear-gradient(25deg,transparent 0 70px,rgba(255,255,255,.025) 71px 72px);animation:drift 20s linear infinite;opacity:.9}
+.stage:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,transparent 35%,rgba(0,0,0,.55) 100%);pointer-events:none}
+@keyframes drift{from{transform:translateX(-40px) translateY(-20px)}to{transform:translateX(40px) translateY(20px)}}
+.spark{position:absolute;width:3px;height:3px;background:var(--orange2);border-radius:50%;box-shadow:0 0 12px var(--orange);animation:rise linear infinite;opacity:.65}
+@keyframes rise{from{transform:translateY(105vh) scale(.7);opacity:0}15%{opacity:.7}to{transform:translateY(-10vh) scale(1.4);opacity:0}}
+.main{position:relative;z-index:2;width:94vw;height:92vh;margin:auto;display:grid;grid-template-rows:auto auto 1fr auto;align-items:center;text-align:center;padding:2.2vh 3vw;border:1px solid rgba(255,106,0,.24);box-shadow:inset 0 0 90px rgba(255,106,0,.11),0 0 40px rgba(255,106,0,.12);background:linear-gradient(180deg,rgba(0,0,0,.20),rgba(0,0,0,.46))}
+.top{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.4vh}
+.logo-wrap{position:relative;width:min(250px,18vw);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
+.logo-wrap:before{content:"";position:absolute;width:82%;height:82%;border-radius:50%;background:radial-gradient(circle,rgba(255,106,0,.18),transparent 64%);filter:blur(10px)}
+.logo-img{position:relative;max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 0 10px rgba(255,106,0,.32))}
+.slogan{font-size:clamp(24px,2.3vw,46px);font-weight:900;letter-spacing:1px;text-shadow:0 0 12px rgba(255,106,0,.55)}
+.en{font-size:clamp(11px,.9vw,18px);color:#c9c9c9;letter-spacing:.55vw;direction:ltr}
+.offer-card{width:min(900px,72vw);margin:1.2vh auto 0;padding:1.1vh 2vw;border:1px solid rgba(255,106,0,.38);border-radius:24px;background:linear-gradient(90deg,rgba(255,106,0,.10),rgba(255,255,255,.035),rgba(255,106,0,.10));box-shadow:0 0 28px rgba(255,106,0,.18),inset 0 0 35px rgba(255,106,0,.08)}
+.offer-title{font-size:clamp(42px,4.4vw,86px);line-height:1;font-weight:1000;color:var(--orange2);text-shadow:0 0 18px rgba(255,106,0,.65)}
+.offer-year{margin-top:.3vh;font-size:clamp(25px,2.3vw,45px);font-weight:900;color:#fff}
+.sub{margin-top:.5vh;font-size:clamp(18px,1.6vw,32px);color:#e9e9e9}
+.count-area{display:flex;align-items:center;justify-content:center}
+.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25vw;width:min(1320px,88vw);direction:ltr}
+.unit{position:relative;min-height:23vh;border-radius:30px;padding:2vh 1vw 1.4vh;border:1px solid rgba(255,106,0,.55);background:linear-gradient(180deg,rgba(255,255,255,.07),transparent 32%),linear-gradient(145deg,rgba(255,106,0,.12),rgba(0,0,0,.86));box-shadow:0 0 34px rgba(255,106,0,.28),inset 0 0 34px rgba(255,106,0,.10),inset 0 1px 0 rgba(255,255,255,.18);overflow:hidden}
+.unit:before{content:"";position:absolute;inset:-60% -80%;background:linear-gradient(110deg,transparent 42%,rgba(255,255,255,.15),transparent 58%);transform:translateX(-40%);animation:shine 6s ease-in-out infinite}
+@keyframes shine{0%,55%{transform:translateX(-45%)}75%,100%{transform:translateX(45%)}}
+.num{position:relative;z-index:1;font-family:Impact,'Arial Black',Tahoma,sans-serif;font-size:clamp(82px,8.3vw,165px);line-height:.95;color:#ff7b00;text-shadow:0 0 10px rgba(255,106,0,.9),0 0 30px rgba(255,106,0,.55);direction:ltr}
+.label{position:relative;z-index:1;margin-top:1vh;font-size:clamp(18px,1.4vw,30px);color:#fff;font-weight:800}
+.label small{display:block;margin-top:.25vh;font-size:.55em;color:#aaa;letter-spacing:2px}
+.details{display:flex;align-items:center;justify-content:center;gap:2vw;width:max-content;max-width:90%;margin:0 auto 1.7vh;padding:1.1vh 2vw;border:1px solid rgba(255,106,0,.38);border-radius:20px;background:rgba(0,0,0,.38);box-shadow:0 0 22px rgba(255,106,0,.15);font-size:clamp(17px,1.25vw,28px)}
+.features{display:grid;grid-template-columns:repeat(9,1fr);gap:.7vw;width:100%}
+.feature{min-height:9vh;border-radius:18px;padding:1vh .45vw;border:1px solid rgba(255,106,0,.28);background:linear-gradient(180deg,rgba(255,106,0,.10),rgba(255,255,255,.025));box-shadow:inset 0 0 18px rgba(255,106,0,.05)}
+.ico{font-size:clamp(25px,2vw,42px);filter:drop-shadow(0 0 7px rgba(255,106,0,.55))}
+.feature b{display:block;margin-top:.45vh;font-size:clamp(11px,.85vw,18px)}
+.feature span{display:block;margin-top:.2vh;color:#aaa;font-size:clamp(9px,.62vw,13px)}
+.footer{position:absolute;left:0;right:0;bottom:1.2vh;color:var(--orange2);font-weight:900;letter-spacing:.45vw;font-size:clamp(16px,1.35vw,28px)}
+.sound-btn{position:absolute;top:2vh;left:2vw;z-index:5;background:rgba(0,0,0,.55);color:#fff;border:1px solid rgba(255,106,0,.5);border-radius:14px;padding:10px 16px;font-size:15px;cursor:pointer}
+.urgent .num{color:#ff3b1f;text-shadow:0 0 14px #ff3b1f,0 0 36px rgba(255,0,0,.65)}
+.urgent .unit{border-color:rgba(255,59,31,.75);box-shadow:0 0 40px rgba(255,59,31,.35)}
+@media(max-width:900px){body{overflow:auto}.stage{height:auto;min-height:100vh}.main{height:auto;min-height:96vh}.timer{grid-template-columns:repeat(2,1fr)}.details{flex-direction:column;gap:8px;width:95%}.features{grid-template-columns:repeat(3,1fr)}.logo-wrap{width:150px}.footer{position:relative;margin-top:2vh;letter-spacing:2px}}
 </style>
 </head>
 <body>
-<div class="screen" id="screen">
-  <div class="beam"><span></span><span></span><span></span><span></span></div>
-  <div class="spark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="frame"></div>
-
-  <div class="offer-box">
-    <div class="offer-kicker"><span class="sun"></span> عرض خاص لفترة محدودة</div>
-    <div class="offer-title">عرض الصيف <span>2026</span></div>
-  </div>
-
-  <div class="badge"><strong>24/7</strong><span>مفتوح 24 ساعة</span></div>
-
-  <header class="header">
-    <div class="logo-wrap"><img class="logo-img" src="logo-2.png?v=20260705" alt="ASZ"></div>
-    <div class="slogan">مصنع الأبطال</div>
-    <div class="en">CHAMPIONS ARE MADE HERE</div>
-  </header>
-
-  <main class="main">
-    <div class="subline">لا تفوت الفرصة... ينتهي العرض خلال</div>
-    <section class="countdown" aria-label="Countdown">
-      <div class="unit"><div class="num" id="days">00</div><div class="label">يوم<small>DAYS</small></div></div>
-      <div class="unit"><div class="num" id="hours">00</div><div class="label">ساعة<small>HOURS</small></div></div>
-      <div class="unit"><div class="num" id="minutes">00</div><div class="label">دقيقة<small>MINUTES</small></div></div>
-      <div class="unit"><div class="num" id="seconds">00</div><div class="label">ثانية<small>SECONDS</small></div></div>
-    </section>
-    <div class="end-info">
-      <div class="info-pill">ينتهي العرض بتاريخ <b>18 / 07 / 2026</b></div>
-      <div class="info-pill">الساعة <b>11:59 مساءً</b> بتوقيت السعودية</div>
+<div class="stage" id="stage">
+  <button class="sound-btn" id="soundBtn">تفعيل صوت التنبيه</button>
+  <div class="main">
+    <div class="top">
+      <div class="logo-wrap"><img class="logo-img" src="logo-2.png?v=20260705" alt="ASZ Logo"></div>
+      <div class="slogan">مصنع الأبطال</div>
+      <div class="en">CHAMPIONS ARE MADE HERE</div>
     </div>
-  </main>
-
-  <section class="features">
-    <div class="feature"><div class="ico">🏋️</div><b>نادي حديد</b><span>أجهزة حديثة</span></div>
-    <div class="feature"><div class="ico">🏊</div><b>مسبح أولمبي</b><span>تجربة متكاملة</span></div>
-    <div class="feature"><div class="ico">♨️</div><b>جاكوزي حار</b><span>استرخاء وتجديد</span></div>
-    <div class="feature"><div class="ico">❄️</div><b>جاكوزي بارد</b><span>استشفاء وتعافي</span></div>
-    <div class="feature"><div class="ico">🔥</div><b>ساونا</b><span>راحة بعد التمرين</span></div>
-    <div class="feature"><div class="ico">🌫️</div><b>حمام بخار</b><span>انتعاش وراحة</span></div>
-    <div class="feature"><div class="ico">👨‍🏫</div><b>إشراف مدربين</b><span>متابعة لهدفك</span></div>
-    <div class="feature"><div class="ico">🥗</div><b>خطط تغذية</b><span>حسب هدفك</span></div>
-    <div class="feature"><div class="ico">📋</div><b>خطط تمارين</b><span>برنامج مناسب</span></div>
-  </section>
-  <div class="footer">ASZ GYM • الانضباط • القوة • النجاح</div>
+    <div class="offer-card">
+      <div class="offer-title">عرض الصيف</div>
+      <div class="offer-year">2026</div>
+      <div class="sub" id="subText">لا تفوت الفرصة... ينتهي العرض خلال</div>
+    </div>
+    <div class="count-area">
+      <div class="timer">
+        <div class="unit"><div class="num" id="days">00</div><div class="label">يوم<small>DAYS</small></div></div>
+        <div class="unit"><div class="num" id="hours">00</div><div class="label">ساعة<small>HOURS</small></div></div>
+        <div class="unit"><div class="num" id="minutes">00</div><div class="label">دقيقة<small>MINUTES</small></div></div>
+        <div class="unit"><div class="num" id="seconds">00</div><div class="label">ثانية<small>SECONDS</small></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="details">
+        <div>📅 ينتهي العرض بتاريخ <b>18 / 07 / 2026</b></div>
+        <div>🕚 الساعة <b>11:59 مساءً</b></div>
+      </div>
+      <div class="features">
+        <div class="feature"><div class="ico">🏋️</div><b>نادي حديد</b><span>أجهزة حديثة</span></div>
+        <div class="feature"><div class="ico">🏊</div><b>مسبح أولمبي</b><span>معايير عالية</span></div>
+        <div class="feature"><div class="ico">♨️</div><b>جاكوزي حار</b><span>استرخاء وتجديد</span></div>
+        <div class="feature"><div class="ico">❄️</div><b>جاكوزي بارد</b><span>تنشيط وتعافي</span></div>
+        <div class="feature"><div class="ico">🔥</div><b>ساونا</b><span>راحة واستشفاء</span></div>
+        <div class="feature"><div class="ico">🌫️</div><b>حمام بخار</b><span>تنفس أفضل</span></div>
+        <div class="feature"><div class="ico">👨‍🏫</div><b>مدربون</b><span>يشرفون عليك</span></div>
+        <div class="feature"><div class="ico">🥗</div><b>خطط تغذية</b><span>مخصصة لك</span></div>
+        <div class="feature"><div class="ico">📋</div><b>خطط تمارين</b><span>مناسبة لهدفك</span></div>
+      </div>
+    </div>
+    <div class="footer">ASZ GYM • مفتوح 24 ساعة • الانضباط • القوة • النجاح</div>
+  </div>
 </div>
 <script>
-const endDate = new Date('2026-07-18T23:59:00+03:00').getTime();
-const ids = ['days','hours','minutes','seconds'];
-let previousSecond = null;
-function setText(id,value){ const el=document.getElementById(id); if(el.textContent!==String(value)){ el.textContent=String(value); el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); setTimeout(()=>el.classList.remove('tick'),180); }}
-function updateTimer(){
-  const now = Date.now();
-  let distance = endDate - now;
-  if(distance <= 0){
-    document.getElementById('screen').classList.add('expired');
-    document.querySelector('.offer-title').innerHTML = 'انتهى <span>عرض الصيف</span>';
-    document.querySelector('.subline').textContent = 'تابع حسابات ASZ للعروض القادمة';
-    ids.forEach(id=>setText(id,'00'));
-    return;
-  }
-  const days = Math.floor(distance/(1000*60*60*24));
-  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-  const seconds = Math.floor((distance%(1000*60))/1000);
-  setText('days',days);
-  setText('hours',String(hours).padStart(2,'0'));
-  setText('minutes',String(minutes).padStart(2,'0'));
-  setText('seconds',String(seconds).padStart(2,'0'));
-  if(days < 3){ document.getElementById('screen').classList.add('expired'); }
-}
-updateTimer(); setInterval(updateTimer,1000);
+const endDate=new Date("2026-07-18T23:59:00+03:00").getTime();
+let soundEnabled=false,lastAlarmMinute=-1;
+for(let i=0;i<55;i++){const s=document.createElement("span");s.className="spark";s.style.left=Math.random()*100+"%";s.style.animationDuration=(8+Math.random()*12)+"s";s.style.animationDelay=(-Math.random()*14)+"s";document.querySelector(".stage").appendChild(s)}
+const btn=document.getElementById("soundBtn");
+btn.addEventListener("click",()=>{soundEnabled=true;btn.textContent="تم تفعيل صوت التنبيه";beep(880,.06);setTimeout(()=>beep(1100,.06),120)});
+function beep(freq=900,dur=.12){if(!soundEnabled)return;try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const osc=ctx.createOscillator();const gain=ctx.createGain();osc.frequency.value=freq;osc.type="sine";gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.18,ctx.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+dur);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+dur+.02)}catch(e){}}
+function updateTimer(){const now=Date.now(),distance=endDate-now,stage=document.getElementById("stage");if(distance<=0){["days","hours","minutes","seconds"].forEach(id=>document.getElementById(id).textContent="00");document.querySelector(".offer-title").textContent="انتهى العرض";document.querySelector(".offer-year").textContent="ASZ";document.getElementById("subText").textContent="ترقبوا عروضنا القادمة";return}const d=Math.floor(distance/(1000*60*60*24)),h=Math.floor((distance%(1000*60*60*24))/(1000*60*60)),m=Math.floor((distance%(1000*60*60))/(1000*60)),s=Math.floor((distance%(1000*60))/1000);document.getElementById("days").textContent=d;document.getElementById("hours").textContent=String(h).padStart(2,"0");document.getElementById("minutes").textContent=String(m).padStart(2,"0");document.getElementById("seconds").textContent=String(s).padStart(2,"0");if(distance<=24*60*60*1000){stage.classList.add("urgent");document.getElementById("subText").textContent="الساعات الأخيرة... لا تفوت الفرصة"}const totalMinutes=Math.floor(distance/60000);if(soundEnabled&&distance<=60*60*1000&&totalMinutes!==lastAlarmMinute){lastAlarmMinute=totalMinutes;beep(900,.08);setTimeout(()=>beep(900,.08),160);setTimeout(()=>beep(1200,.12),320)}}
+updateTimer();setInterval(updateTimer,1000);
 </script>
 </body>
 </html>
