@@ -4,180 +4,215 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ASZ Summer Offer</title>
+
 <style>
 *{box-sizing:border-box}
+
 body{
-margin:0;
-min-height:100vh;
-background:#030303;
-color:white;
-font-family:Arial,Tahoma,sans-serif;
-overflow:hidden;
-display:flex;
-align-items:center;
-justify-content:center;
+  margin:0;
+  min-height:100vh;
+  background:#030303;
+  color:white;
+  font-family:Arial,Tahoma,sans-serif;
+  overflow:hidden;
 }
+
 .bg{
-position:fixed;inset:0;
-background:
-radial-gradient(circle at center,#1b0b00 0%,#050505 45%,#000 100%);
-z-index:-3;
+  position:fixed;
+  inset:0;
+  background:
+  radial-gradient(circle at center,#1b0b00 0%,#070707 45%,#000 100%);
+  z-index:-2;
 }
+
 .lines:before,.lines:after{
-content:"";
-position:fixed;
-top:8%;
-width:35%;
-height:80%;
-border:3px solid #ff6a00;
-filter:drop-shadow(0 0 20px #ff6a00);
-opacity:.6;
+  content:"";
+  position:fixed;
+  top:10%;
+  width:36%;
+  height:80%;
+  border:3px solid #ff6a00;
+  filter:drop-shadow(0 0 22px #ff6a00);
+  opacity:.5;
 }
-.lines:before{left:-8%;transform:skewX(-28deg)}
-.lines:after{right:-8%;transform:skewX(28deg)}
+.lines:before{left:-10%;transform:skewX(-28deg)}
+.lines:after{right:-10%;transform:skewX(28deg)}
+
 .wrap{
-width:96vw;
-height:96vh;
-padding:25px;
-text-align:center;
-border:1px solid rgba(255,106,0,.25);
-box-shadow:0 0 60px rgba(255,106,0,.18) inset;
+  width:96vw;
+  height:96vh;
+  margin:2vh auto;
+  padding:22px;
+  text-align:center;
+  border:1px solid rgba(255,106,0,.25);
+  box-shadow:0 0 70px rgba(255,106,0,.18) inset;
+  position:relative;
 }
-.logo{
-font-size:90px;
-font-weight:900;
-color:#ff6a00;
-letter-spacing:12px;
-text-shadow:0 0 25px #ff6a00;
-margin-top:5px;
+
+.logo-img{
+  width:230px;
+  max-width:32vw;
+  display:block;
+  margin:0 auto 8px;
+  filter:drop-shadow(0 0 28px #ff6a00);
 }
+
 .slogan{
-font-size:34px;
-margin-top:5px;
+  font-size:34px;
+  margin-top:0;
 }
+
 .en{
-color:#ccc;
-letter-spacing:7px;
-font-size:16px;
-margin-top:7px;
+  color:#ccc;
+  letter-spacing:7px;
+  font-size:15px;
+  margin-top:5px;
 }
+
 .offer{
-margin-top:25px;
-font-size:64px;
-font-weight:900;
-color:#ff8a00;
-text-shadow:0 0 25px #ff6a00;
+  margin-top:18px;
+  font-size:62px;
+  font-weight:900;
+  color:#ff8a00;
+  text-shadow:0 0 25px #ff6a00;
 }
+
 .sub{
-font-size:30px;
-margin-top:10px;
-color:#eee;
+  font-size:30px;
+  margin-top:8px;
+  color:#eee;
 }
+
 .timer{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:22px;
-margin:35px auto 25px;
-max-width:1150px;
-direction:ltr;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+  margin:30px auto 22px;
+  max-width:1180px;
+  direction:ltr;
 }
+
 .card{
-background:rgba(10,10,10,.88);
-border:3px solid #ff6a00;
-border-radius:26px;
-padding:24px 10px;
-box-shadow:0 0 25px rgba(255,106,0,.55), inset 0 0 35px rgba(255,106,0,.12);
+  background:rgba(10,10,10,.9);
+  border:3px solid #ff6a00;
+  border-radius:24px;
+  padding:22px 8px;
+  box-shadow:0 0 26px rgba(255,106,0,.55), inset 0 0 35px rgba(255,106,0,.12);
 }
+
 .num{
-font-size:105px;
-font-weight:900;
-color:#ff7800;
-text-shadow:0 0 22px #ff6a00;
-font-family:Impact,Arial Black,sans-serif;
+  font-size:100px;
+  font-weight:900;
+  color:#ff7800;
+  text-shadow:0 0 24px #ff6a00;
+  font-family:Impact,Arial Black,sans-serif;
 }
+
 .lbl{
-font-size:28px;
-margin-top:8px;
+  font-size:26px;
+  margin-top:8px;
 }
+
 .info{
-display:flex;
-justify-content:center;
-gap:45px;
-align-items:center;
-font-size:28px;
-border:2px solid #ff6a00;
-border-radius:22px;
-padding:14px 30px;
-width:max-content;
-margin:0 auto 28px;
-box-shadow:0 0 20px rgba(255,106,0,.35);
+  display:flex;
+  justify-content:center;
+  gap:45px;
+  align-items:center;
+  font-size:26px;
+  border:2px solid #ff6a00;
+  border-radius:22px;
+  padding:13px 30px;
+  width:max-content;
+  margin:0 auto 22px;
+  box-shadow:0 0 20px rgba(255,106,0,.35);
 }
+
 .features{
-display:grid;
-grid-template-columns:repeat(9,1fr);
-gap:10px;
-margin-top:20px;
+  display:grid;
+  grid-template-columns:repeat(9,1fr);
+  gap:10px;
+  margin-top:18px;
 }
+
 .feature{
-border-top:2px solid #ff6a00;
-padding:16px 6px 8px;
-min-height:105px;
+  border-top:2px solid #ff6a00;
+  padding:13px 5px 6px;
+  min-height:96px;
 }
+
 .ico{
-font-size:38px;
-color:#ff7a00;
+  font-size:34px;
+  color:#ff7a00;
 }
+
 .feature b{
-display:block;
-font-size:18px;
-margin-top:8px;
+  display:block;
+  font-size:17px;
+  margin-top:6px;
 }
+
 .feature span{
-display:block;
-font-size:12px;
-color:#ccc;
-margin-top:4px;
+  display:block;
+  font-size:12px;
+  color:#ccc;
+  margin-top:4px;
 }
+
 .bottom{
-position:absolute;
-bottom:22px;
-left:0;
-right:0;
-font-size:28px;
-color:#ff7a00;
-letter-spacing:6px;
-font-weight:bold;
+  position:absolute;
+  bottom:18px;
+  left:0;
+  right:0;
+  font-size:27px;
+  color:#ff7a00;
+  letter-spacing:6px;
+  font-weight:bold;
 }
+
 .badge{
-position:absolute;
-top:25px;
-left:25px;
-border:2px solid #ff6a00;
-border-radius:0 0 25px 25px;
-padding:15px 24px;
-font-size:22px;
-color:#fff;
+  position:absolute;
+  top:25px;
+  left:25px;
+  border:2px solid #ff6a00;
+  border-radius:0 0 25px 25px;
+  padding:14px 22px;
+  font-size:21px;
 }
-.badge strong{color:#ff7a00;font-size:38px}
+.badge strong{
+  color:#ff7a00;
+  font-size:38px;
+}
+
 @media(max-width:900px){
-.wrap{height:auto;overflow:auto}
-.logo{font-size:55px}
-.offer{font-size:40px}
-.timer{grid-template-columns:repeat(2,1fr)}
-.features{grid-template-columns:repeat(3,1fr)}
-.num{font-size:70px}
-.info{font-size:20px;flex-direction:column;gap:8px}
+  body{overflow:auto}
+  .wrap{height:auto;min-height:96vh}
+  .logo-img{width:160px;max-width:55vw}
+  .offer{font-size:38px}
+  .slogan{font-size:28px}
+  .sub{font-size:22px}
+  .timer{grid-template-columns:repeat(2,1fr)}
+  .num{font-size:68px}
+  .lbl{font-size:20px}
+  .info{font-size:18px;flex-direction:column;gap:8px;width:95%}
+  .features{grid-template-columns:repeat(3,1fr)}
+  .bottom{position:relative;margin-top:25px;font-size:20px}
 }
 </style>
 </head>
+
 <body>
 <div class="bg"></div>
 <div class="lines"></div>
 
-<div class="badge"><strong>24/7</strong><br>مفتوح 24 ساعة</div>
-
 <div class="wrap">
-  <div class="logo">ASZ</div>
+
+  <div class="badge">
+    <strong>24/7</strong><br>
+    مفتوح 24 ساعة
+  </div>
+
+  <img class="logo-img" src="Screenshot_٠٥٢٢٥_٢٠٢٦٠٧٠٥_WhatsAppBusiness.jpg" alt="ASZ Logo">
+
   <div class="slogan">مصنع الأبطال</div>
   <div class="en">CHAMPIONS ARE MADE HERE</div>
 
@@ -193,4 +228,55 @@ color:#fff;
 
   <div class="info">
     <div>📅 ينتهي العرض بتاريخ <b>18 / 07 / 2026</b></div>
-    <div>🕚 الساعة <b>11:59
+    <div>🕚 الساعة <b>11:59 مساءً</b></div>
+  </div>
+
+  <div class="features">
+    <div class="feature"><div class="ico">🏋️</div><b>نادي حديد</b><span>أجهزة حديثة</span></div>
+    <div class="feature"><div class="ico">🏊</div><b>مسبح أولمبي</b><span>معايير عالية</span></div>
+    <div class="feature"><div class="ico">♨️</div><b>جاكوزي حار</b><span>استرخاء وتجديد</span></div>
+    <div class="feature"><div class="ico">❄️</div><b>جاكوزي بارد</b><span>تنشيط وتعافي</span></div>
+    <div class="feature"><div class="ico">🔥</div><b>ساونا</b><span>راحة واستشفاء</span></div>
+    <div class="feature"><div class="ico">🌫️</div><b>حمام بخار</b><span>تنفس أفضل</span></div>
+    <div class="feature"><div class="ico">👨‍🏫</div><b>مدربون يشرفون عليك</b><span>متابعة لأهدافك</span></div>
+    <div class="feature"><div class="ico">🥗</div><b>خطط تغذية</b><span>مخصصة لك</span></div>
+    <div class="feature"><div class="ico">📋</div><b>خطط تمارين</b><span>مناسبة لهدفك</span></div>
+  </div>
+
+  <div class="bottom">الانضباط • القوة • النجاح</div>
+
+</div>
+
+<script>
+const endDate = new Date("2026-07-18T23:59:00+03:00").getTime();
+
+function updateTimer(){
+  const now = Date.now();
+  const distance = endDate - now;
+
+  if(distance <= 0){
+    document.querySelector(".offer").innerHTML = "انتهى عرض الصيف";
+    document.querySelector(".sub").innerHTML = "تابع حسابات ASZ للعروض القادمة";
+    ["days","hours","minutes","seconds"].forEach(id=>{
+      document.getElementById(id).innerHTML="00";
+    });
+    return;
+  }
+
+  const days = Math.floor(distance/(1000*60*60*24));
+  const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+  const seconds = Math.floor((distance%(1000*60))/1000);
+
+  document.getElementById("days").innerHTML = days;
+  document.getElementById("hours").innerHTML = String(hours).padStart(2,"0");
+  document.getElementById("minutes").innerHTML = String(minutes).padStart(2,"0");
+  document.getElementById("seconds").innerHTML = String(seconds).padStart(2,"0");
+}
+
+updateTimer();
+setInterval(updateTimer,1000);
+</script>
+
+</body>
+</html>
